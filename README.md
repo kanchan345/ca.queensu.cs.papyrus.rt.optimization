@@ -18,8 +18,11 @@ Step 1: Open project in Eclipse and run it as plugin project.
 
 Step 2: Change elements in the model which is built in Papyrus-RT. Push the updated code to git. Run the plug-in project.
 
-Step 3: Provide commit ids of the two model versions, repository path of the model and run the plugin project. Please note: These commit ids can be from any version. The result is the code generation for the changed and impacted elements.
+![Alt text](https://github.com/kanchan345/ca.queensu.cs.papyrus.rt.optimization/blob/master/screenshots/fig1.png)
+![Alt text](https://github.com/kanchan345/ca.queensu.cs.papyrus.rt.optimization/blob/master/screenshots/fig2.png)
 
+Step 3: Provide commit ids of the two model versions, repository path of the model and run the plugin project. Please note: These commit ids can be from any version. The result is the code generation for the changed and impacted elements.
+![Alt text](https://github.com/kanchan345/ca.queensu.cs.papyrus.rt.optimization/blob/master/screenshots/fig3.png)
 
 
 
