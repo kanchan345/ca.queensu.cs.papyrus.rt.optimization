@@ -1,0 +1,96 @@
+import "methods.eol";
+("==================================== \nEntered Epsilon File").println();
+var parentResult: Set; var collection:Set;
+
+//Protocol variables
+var protocolVal:Set; var protocolRes:Set; var protocolResult:Set;
+//Sibling Variables
+var siblingInitialVal:Set;	var siblingVal:Set; var siblingResult:Set; var siblingName:Set;
+//Containment Variables
+var containmentInitialVal:Set;	var containmentVal:Set; var containmentResult:Set; var containmentId:Set;
+//("Top Level Changes\n"+ownerData).println();
+//("Attribute Level Changes\n"+attributeData).println();
+"====================".println();
+
+//Firstly it will check if changed elements are type of packages(Protocol) ids
+//ownerData.println();
+("Changed Elements are "+ ownerData).println();
+//new
+//Firstly it will check if changed elements are type of packages(Protocol) ids
+if(ownerData.containsKey("Package")){
+	//Get Package Name
+	var protocolV:Set; var protocolR:Set;var protocolRes2:Set;
+	protocolVal.addAll(ownerData.get("Package"));//all						//add all Protocol ids to a new set protocolVal
+	//("protocol containment Result "+ protocolVal).println();
+	
+	collection.addAll(protocolResult);										//collection is the set holds all the final impacted values  
+	protocolRes = findPackageNameFromPackageID(protocolVal);					//Find Package name from Package Id
+	protocolResult = findImpactedCapsulesWithProtocolChange(protocolRes);	//Send the Package names to find Impacted 
+																			//capsule to find Impacted Capsule from that 
+																			//protocol
+	
+//	("Impacted Capsules after Protocol Change: "+ protocolResult).println();
+	collection.addAll(protocolRes);											//Save Changed Package names in Collection
+	collection.addAll(protocolResult);										//Save Impacted elements from Package change
+																			// in Collection
+	parentResult = AddToCollection(collection);								//parent result is the final set to send for code generation
+	//("Protocol Result is " + parentResult).println();
+	
+}
+//Firstly it will check if changed elements are type of class(Capsule) ids
+if(ownerData.containsKey("Class")){
+	//Get Class Name
+	containmentVal.addAll(ownerData.get("Class")); //all	
+	containmentResult = findClassNameFromClassID(containmentVal);	//find the class names from class id
+	collection.addAll(containmentResult);							//find the class names to Collection set
+	
+	parentResult = AddToCollection(collection);						//parent result is the final set to send for code generation
+}
+//Containment Relationship
+if(((protocolResult.isEmpty()) and (ownerData.containsKey("Class")))){
+	containmentInitialVal.addAll(ownerData.get("Class"));
+	containmentVal.addAll(containmentInitialVal);		//Containment val contains all the changed classes	
+	containmentResult = findClassNameFromClassID(containmentVal);	//find the class names from class id
+	("Impacted Capsules after Containment Change " + containmentResult).println();
+	
+	siblingVal = findImpactedSiblingCapsules(containmentResult);	
+	("Impacted Capsules after Communication Change " + siblingVal).println();
+	collection.addAll(siblingVal);
+	siblingResult = findClassIdFromClassName(siblingVal);
+	
+		//To check containment with Sibling
+	containmentResult = findImpactedCapsules(siblingResult);	
+	("Impacted Capsules after Communication Change: " + containmentResult).println();
+	
+	//To check containment
+	containmentResult = findImpactedCapsules(containmentVal);		
+	collection.addAll(containmentResult);
+	
+	("Impacted Capsules after Containment Change: " + collection).println();
+	
+}
+if (protocolResult.notEmpty()){
+// Added to check the sibling method
+	var siblingResult:Set; var siblingR:Set;
+	siblingR = findImpactedSiblingCapsules(protocolResult);
+	siblingResult.addAll(siblingR);	
+	collection.addAll(siblingResult);	
+	
+	("Impacted Capsules after Communication Change: " + siblingResult).println();
+		
+// 	Get Class Id after Sibling Check
+	containmentInitialVal.addAll(siblingResult);	
+	containmentId = findClassIdFromClassName(containmentInitialVal);
+	containmentVal.addAll(containmentId);
+	
+// 	Get Class Id after Protocol check Check	
+	containmentInitialVal.addAll(protocolResult);	
+	containmentId = findClassIdFromClassName(containmentInitialVal);		
+	containmentResult = findImpactedCapsules(containmentId);	
+	("Impacted Capsules after Containment Change: " + containmentResult).println();
+	
+	collection.addAll(containmentResult);	
+}
+parentResult = AddToCollection(collection);
+outputValues = parentResult;
+("Total Impacted Model Elements: " + outputValues).println();
