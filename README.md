@@ -11,7 +11,6 @@ The following links may provide useful resources regarding the Papyrus-RT, EMF C
 
 [Epsilon Object Language](https://www.eclipse.org/epsilon/doc/eol/)
 
-
 **Running**
 
 Step 1: Open project in Eclipse and run it as plugin project. 
